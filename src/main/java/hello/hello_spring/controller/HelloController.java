@@ -19,5 +19,4 @@ public class HelloController {
         model.addAttribute("name", name);
         return "hello-templete";
     }
-    //
 }
