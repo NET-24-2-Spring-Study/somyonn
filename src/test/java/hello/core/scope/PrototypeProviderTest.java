@@ -2,7 +2,9 @@ package hello.core.scope;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
+import jakarta.inject.Provider;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -26,12 +28,22 @@ public class PrototypeProviderTest {
 
     static class ClientBean {
 
+//        @Autowired
+//        private ObjectProvider<PrototypeBean> prototypeBeanProvider;
+//
+//        public int logic() {
+//
+//            PrototypeBean prototypeBean = prototypeBeanProvider.getObject();
+//            prototypeBean.addCount();
+//            int count = prototypeBean.getCount();
+//            return count;
+//        }
         @Autowired
-        private ApplicationContext ac;
+        private Provider<PrototypeBean> provider;
 
         public int logic() {
 
-            PrototypeBean prototypeBean = ac.getBean(PrototypeBean.class);
+            PrototypeBean prototypeBean = provider.get();
             prototypeBean.addCount();
             int count = prototypeBean.getCount();
             return count;
@@ -59,3 +71,7 @@ public class PrototypeProviderTest {
             System.out.println("PrototypeBean.destroy");}
     }
 }
+
+// 실행 결과
+// PrototypeBean.init hello.core.scope.PrototypeProviderTest$PrototypeBean@38234a38
+// PrototypeBean.init hello.core.scope.PrototypeProviderTest$PrototypeBean@63fbfaeb
